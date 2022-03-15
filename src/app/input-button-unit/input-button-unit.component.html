@@ -1,0 +1,4 @@
+<div>
+    <input #inputElementRef placeholder="Add task" [value]="title" type="text" (keyup.enter)="handleKeyUp($event)">
+    <button (click)="handleClick(inputElementRef.value)">Add task</button>
+</div>
