@@ -9,13 +9,14 @@ export class InputButtonUnitComponent implements OnInit {
   @Output() submit: EventEmitter<string> = new EventEmitter<string>();
   title: string;
 
-  handleKeyUp(e: Event) {
-    const target = e.target as HTMLInputElement;
-    this.submit.emit(target.value);
-  }
-
-  handleClick(newTitle: string) {
-    this.submit.emit(newTitle);
+  handleClick() {
+    if (this.title) {
+      this.submit.emit(this.title);
+      this.title = ""
+    }
+    else {
+      alert("You must add a task text")
+    }
   }
 
   constructor() {
