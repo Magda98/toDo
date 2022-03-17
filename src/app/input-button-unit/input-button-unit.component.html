@@ -1,4 +1,4 @@
-<div>
+<div class="todo-additem">
     <input #inputElementRef placeholder="Add task" [value]="title" type="text" (keyup.enter)="handleKeyUp($event)">
-    <button (click)="handleClick(inputElementRef.value)">Add task</button>
+    <button class="btn" (click)="handleClick(inputElementRef.value)">Add task</button>
 </div>
