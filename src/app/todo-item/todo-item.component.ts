@@ -1,5 +1,5 @@
-import { TodoItem } from './../interfaces/todo-item';
-import { Component, OnInit, Input } from '@angular/core';
+import { TodoItem, TodoItemUpdate } from './../interfaces/todo-item';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 
 @Component({
@@ -11,10 +11,19 @@ import { Component, OnInit, Input } from '@angular/core';
   
 export class TodoItemComponent implements OnInit {
   @Input() item!: TodoItem;
+  @Output() remove: EventEmitter<TodoItem> = new EventEmitter<TodoItem>();
+  @Output() complete: EventEmitter<TodoItemUpdate> = new EventEmitter<TodoItemUpdate>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+  completeItem(checked: boolean) {
+    this.complete.emit({ item: this.item, completed: checked});
+  }
+
+  removeItem() {
+    this.remove.emit(this.item);
   }
 
 }

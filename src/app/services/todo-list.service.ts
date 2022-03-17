@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { TodoItem } from '../interfaces/todo-item';
+import { StorageService } from './storage.service';
+
+const todoListStorageKey = 'Todo_List';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoListService {
-  private todoList: TodoItem[] = [
-  {title: 'install NodeJS'},
-  {title: 'install Angular CLI'},
-  {title: 'create new app'},
-  {title: 'serve app'},
-  {title: 'develop app'},
-  {title: 'deploy app'},
-];
-  constructor() { }
+  private todoList: TodoItem[] = [];
+
+
+  constructor(private storageService: StorageService) {
+    this.todoList = storageService.getData(todoListStorageKey);
+  }
 
   getToDoList(): TodoItem[]{
     return this.todoList;
@@ -21,5 +21,22 @@ export class TodoListService {
 
   addItem(item: TodoItem) {
     this.todoList.push(item)
+    this.saveList();
+  }
+
+  updateItem(item: TodoItem, changes: Partial<TodoItem>): void {
+    const index = this.todoList.indexOf(item);
+    this.todoList[index] = {...item, ...changes };
+    this.saveList();
+  }
+
+  deleteItem(item: TodoItem): void {
+    const index = this.todoList.indexOf(item);
+    this.todoList.splice(index, 1);
+    this.saveList();
+  }
+
+  private saveList() {
+    this.storageService.setData(todoListStorageKey, this.todoList);
   }
 }
